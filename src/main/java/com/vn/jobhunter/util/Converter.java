@@ -1,8 +1,6 @@
 package com.vn.jobhunter.util;
 
-import com.vn.jobhunter.domain.Response.ResLoginDTO;
-import com.vn.jobhunter.domain.Response.ResUserDTO;
-import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
+import com.vn.jobhunter.domain.Response.*;
 import com.vn.jobhunter.domain.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -18,8 +16,8 @@ public class Converter {
         this.modelMapper = modelMapper;
     }
 
-    public ResUserDTO toResCreateUserDTO(User user) {
-        ResUserDTO resCreateUser = modelMapper.map(user, ResUserDTO.class);
+    public ResCreateUserDTO toResCreateUserDTO(User user) {
+        ResCreateUserDTO resCreateUser = modelMapper.map(user, ResCreateUserDTO.class);
         return resCreateUser;
     }
 
@@ -28,11 +26,9 @@ public class Converter {
         return resUser;
     }
 
-    public ResUserDTO toResUpdateUserDTO(User user) {
-        ResUserDTO resUpdateUser = modelMapper.map(user, ResUserDTO.class);
+    public ResUpdateUserDTO toResUpdateUserDTO(User user) {
+        ResUpdateUserDTO resUpdateUser = modelMapper.map(user, ResUpdateUserDTO.class);
 
-        resUpdateUser.setCreatedAt(null);
-        resUpdateUser.setCreatedBy(null);
 
         return resUpdateUser;
     }

@@ -1,5 +1,7 @@
 package com.vn.jobhunter.service;
 
+import com.vn.jobhunter.domain.Response.ResCreateUserDTO;
+import com.vn.jobhunter.domain.Response.ResUpdateUserDTO;
 import com.vn.jobhunter.domain.Response.ResUserDTO;
 import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
 import com.vn.jobhunter.domain.User;
@@ -29,7 +31,7 @@ public class UserService {
         return this.userRepository.findByEmail(email);
     }
 
-    public ResUserDTO handleCreate(User user) throws InvalidException {
+    public ResCreateUserDTO handleCreate(User user) throws InvalidException {
         //handle create exception
 
         if (this.userRepository.existsByEmail(user.getEmail())) {
@@ -43,7 +45,7 @@ public class UserService {
         return this.converter.toResCreateUserDTO(createdUser);
     }
 
-    public ResUserDTO handleUpdate(User user) throws InvalidException {
+    public ResUpdateUserDTO handleUpdate(User user) throws InvalidException {
 
         if (!this.userRepository.existsById(user.getId())) {
             throw new InvalidException("User is not existing");

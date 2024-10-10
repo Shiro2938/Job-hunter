@@ -8,15 +8,13 @@ import java.time.Instant;
 
 @Getter
 @Setter
-public class ResUserDTO {
+public class ResUpdateUserDTO {
     private long id;
     private String name;
     private String email;
     private String address;
     private String age;
     private GenderEnum gender;
-    private Instant createdAt;
     private Instant updatedAt;
-    private String createdBy;
     private String updatedBy;
 }

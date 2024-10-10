@@ -1,6 +1,8 @@
 package com.vn.jobhunter.controller;
 
 import com.turkraft.springfilter.boot.Filter;
+import com.vn.jobhunter.domain.Response.ResCreateUserDTO;
+import com.vn.jobhunter.domain.Response.ResUpdateUserDTO;
 import com.vn.jobhunter.domain.Response.ResUserDTO;
 import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
 import com.vn.jobhunter.domain.User;
@@ -23,20 +25,20 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<ResUserDTO> createUser(@RequestBody @Valid User user) throws InvalidException {
+    public ResponseEntity<ResCreateUserDTO> createUser(@RequestBody @Valid User user) throws InvalidException {
 
         //handle create User
-        ResUserDTO createdUser = this.userService.handleCreate(user);
+        ResCreateUserDTO createdUser = this.userService.handleCreate(user);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(createdUser);
     }
 
     @PutMapping("/users")
-    public ResponseEntity<ResUserDTO> updateUser(@RequestBody @Valid User user) throws InvalidException {
+    public ResponseEntity<ResUpdateUserDTO> updateUser(@RequestBody @Valid User user) throws InvalidException {
 
         //handle update User
-        ResUserDTO updatedUser = this.userService.handleUpdate(user);
+        ResUpdateUserDTO updatedUser = this.userService.handleUpdate(user);
         return ResponseEntity.ok(updatedUser);
     }
 
