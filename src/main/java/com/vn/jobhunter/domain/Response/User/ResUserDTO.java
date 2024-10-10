@@ -1,5 +1,6 @@
 package com.vn.jobhunter.domain.Response.User;
 
+import com.vn.jobhunter.domain.Company;
 import com.vn.jobhunter.domain.enumeration.GenderEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,4 +20,5 @@ public class ResUserDTO {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
+    private Company company;
 }

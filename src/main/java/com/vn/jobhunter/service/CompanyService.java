@@ -14,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class CompanyService {
     private final CompanyRepository companyRepository;
     private final Converter converter;
+    private final UserService userService;
 
-    public CompanyService(CompanyRepository companyRepository, Converter converter) {
+    public CompanyService(CompanyRepository companyRepository, Converter converter, UserService userService) {
         this.companyRepository = companyRepository;
         this.converter = converter;
+        this.userService = userService;
     }
 
     public Company handleCreate(Company company) {
@@ -53,6 +55,16 @@ public class CompanyService {
     public void handleDelete(long id) throws InvalidException {
         Company company = this.companyRepository.findById(id).orElse(null);
         if (company == null) throw new InvalidException("Company not found");
+
+        //delete user
+        company.getUsers().stream().forEach(item -> {
+            try {
+                this.userService.deleteById(item.getId());
+            } catch (InvalidException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         this.companyRepository.deleteById(id);
     }
 }

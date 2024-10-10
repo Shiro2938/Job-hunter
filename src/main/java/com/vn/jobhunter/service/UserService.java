@@ -1,5 +1,6 @@
 package com.vn.jobhunter.service;
 
+import com.vn.jobhunter.domain.Company;
 import com.vn.jobhunter.domain.Request.ReqLoginDTO;
 import com.vn.jobhunter.domain.Response.Auth.ResLoginDTO;
 import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
@@ -7,6 +8,7 @@ import com.vn.jobhunter.domain.Response.User.ResCreateUserDTO;
 import com.vn.jobhunter.domain.Response.User.ResUpdateUserDTO;
 import com.vn.jobhunter.domain.Response.User.ResUserDTO;
 import com.vn.jobhunter.domain.User;
+import com.vn.jobhunter.repository.CompanyRepository;
 import com.vn.jobhunter.repository.UserRepository;
 import com.vn.jobhunter.util.Converter;
 import com.vn.jobhunter.util.SecurityUtil;
@@ -29,14 +31,17 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final SecurityUtil securityUtil;
+    private final CompanyRepository companyRepository;
 
     public UserService(UserRepository userRepository, Converter converter,
-                       PasswordEncoder passwordEncoder, AuthenticationManagerBuilder authenticationManagerBuilder, SecurityUtil securityUtil) {
+                       PasswordEncoder passwordEncoder, AuthenticationManagerBuilder authenticationManagerBuilder, SecurityUtil securityUtil,
+                       CompanyRepository companyRepository) {
         this.userRepository = userRepository;
         this.converter = converter;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.securityUtil = securityUtil;
+        this.companyRepository = companyRepository;
     }
 
     public User fetchByEmail(String email) {
@@ -49,8 +54,15 @@ public class UserService {
         if (this.userRepository.existsByEmail(user.getEmail())) {
             throw new InvalidException("User is existing");
         }
+
+        //check company valid
+        Company company = this.companyRepository.findById(user.getCompany().getId()).orElse(null);
+        if (company == null)
+            throw new InvalidException("Company not found");
+
         //encode password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setCompany(company);
 
         User createdUser = this.userRepository.save(user);
 
@@ -63,6 +75,11 @@ public class UserService {
             throw new InvalidException("User is not existing");
         }
 
+        //check company exist
+        Company company = this.companyRepository.findById(user.getCompany().getId()).orElse(null);
+        if (company == null)
+            throw new InvalidException("Company not found");
+
         User userInDB = this.userRepository.findById(user.getId()).get();
 
         //mapping
@@ -71,6 +88,7 @@ public class UserService {
         userInDB.setAddress(user.getAddress());
         userInDB.setAge(user.getAge());
         userInDB.setGender(user.getGender());
+        userInDB.setCompany(company);
 
         this.userRepository.save(userInDB);
 
