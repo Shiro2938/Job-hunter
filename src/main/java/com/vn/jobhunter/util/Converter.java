@@ -1,6 +1,10 @@
 package com.vn.jobhunter.util;
 
-import com.vn.jobhunter.domain.Response.*;
+import com.vn.jobhunter.domain.Response.Auth.ResLoginDTO;
+import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
+import com.vn.jobhunter.domain.Response.User.ResCreateUserDTO;
+import com.vn.jobhunter.domain.Response.User.ResUpdateUserDTO;
+import com.vn.jobhunter.domain.Response.User.ResUserDTO;
 import com.vn.jobhunter.domain.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -60,6 +64,14 @@ public class Converter {
 
         ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta(page, pageSize, pages, total);
         resultPaginationDTO.setMeta(meta);
+
+        return resultPaginationDTO;
+    }
+
+    public <T> ResultPaginationDTO toDefaultResultPaginationDTO(Page<T> objectPage) {
+        ResultPaginationDTO resultPaginationDTO = this.initResultPagination(objectPage);
+
+        resultPaginationDTO.setResult(objectPage.getContent());
 
         return resultPaginationDTO;
     }

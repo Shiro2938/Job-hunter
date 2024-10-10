@@ -2,10 +2,13 @@ package com.vn.jobhunter.domain;
 
 import com.vn.jobhunter.util.SecurityUtil;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,6 +19,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Name must be not blank")
     private String name;
 
     private String address;
@@ -32,6 +36,10 @@ public class Company {
     private String createdBy;
 
     private String updatedBy;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "company")
+    private List<User> users;
 
     @PrePersist
     protected void onCreate() {

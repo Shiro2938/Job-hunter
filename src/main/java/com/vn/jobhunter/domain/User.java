@@ -44,6 +44,10 @@ public class User {
 
     private String updatedBy;
 
+    @ManyToOne
+    @JoinColumn(name = "companyId")
+    private Company company;
+
     @PrePersist
     protected void onCreate() {
         createdAt = Instant.now();

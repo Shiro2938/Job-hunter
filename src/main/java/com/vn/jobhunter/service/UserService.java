@@ -1,7 +1,11 @@
 package com.vn.jobhunter.service;
 
 import com.vn.jobhunter.domain.Request.ReqLoginDTO;
-import com.vn.jobhunter.domain.Response.*;
+import com.vn.jobhunter.domain.Response.Auth.ResLoginDTO;
+import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
+import com.vn.jobhunter.domain.Response.User.ResCreateUserDTO;
+import com.vn.jobhunter.domain.Response.User.ResUpdateUserDTO;
+import com.vn.jobhunter.domain.Response.User.ResUserDTO;
 import com.vn.jobhunter.domain.User;
 import com.vn.jobhunter.repository.UserRepository;
 import com.vn.jobhunter.util.Converter;

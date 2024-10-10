@@ -1,7 +1,7 @@
 package com.vn.jobhunter.util;
 
 import com.nimbusds.jose.util.Base64;
-import com.vn.jobhunter.domain.Response.ResLoginDTO;
+import com.vn.jobhunter.domain.Response.Auth.ResLoginDTO;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;

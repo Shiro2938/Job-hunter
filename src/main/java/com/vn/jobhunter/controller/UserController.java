@@ -1,10 +1,10 @@
 package com.vn.jobhunter.controller;
 
 import com.turkraft.springfilter.boot.Filter;
-import com.vn.jobhunter.domain.Response.ResCreateUserDTO;
-import com.vn.jobhunter.domain.Response.ResUpdateUserDTO;
-import com.vn.jobhunter.domain.Response.ResUserDTO;
 import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
+import com.vn.jobhunter.domain.Response.User.ResCreateUserDTO;
+import com.vn.jobhunter.domain.Response.User.ResUpdateUserDTO;
+import com.vn.jobhunter.domain.Response.User.ResUserDTO;
 import com.vn.jobhunter.domain.User;
 import com.vn.jobhunter.service.UserService;
 import com.vn.jobhunter.util.error.InvalidException;
