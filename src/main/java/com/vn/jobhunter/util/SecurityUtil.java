@@ -2,6 +2,7 @@ package com.vn.jobhunter.util;
 
 import com.nimbusds.jose.util.Base64;
 import com.vn.jobhunter.domain.Response.ResLoginDTO;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Getter
 public class SecurityUtil {
     private final JwtEncoder jwtEncoder;
 
@@ -127,4 +129,6 @@ public class SecurityUtil {
         }
         return null;
     }
+
+
 }

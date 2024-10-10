@@ -29,7 +29,6 @@ public class Converter {
     public ResUpdateUserDTO toResUpdateUserDTO(User user) {
         ResUpdateUserDTO resUpdateUser = modelMapper.map(user, ResUpdateUserDTO.class);
 
-
         return resUpdateUser;
     }
 
@@ -63,5 +62,14 @@ public class Converter {
         resultPaginationDTO.setMeta(meta);
 
         return resultPaginationDTO;
+    }
+
+    public ResLoginDTO.UserGetAccount toResGetAccountDTO(User user) {
+        ResLoginDTO.UserLogin userLogin = modelMapper.map(user, ResLoginDTO.UserLogin.class);
+
+        ResLoginDTO.UserGetAccount userGetAccount = new ResLoginDTO.UserGetAccount();
+        userGetAccount.setUser(userLogin);
+
+        return userGetAccount;
     }
 }

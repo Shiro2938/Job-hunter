@@ -28,6 +28,14 @@ public class ResLoginDTO {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
+    public static class UserGetAccount {
+        private UserLogin user;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class UserInsideToken {
         private long id;
         private String email;

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalException {
     @ExceptionHandler(value = {InvalidException.class,
-            BadCredentialsException.class
+            BadCredentialsException.class, MissingRequestCookieException.class
     })
     public ResponseEntity<RestResponse> handleException(Exception ex) {
         RestResponse response = new RestResponse();
