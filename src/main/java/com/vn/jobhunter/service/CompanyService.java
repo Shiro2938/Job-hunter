@@ -15,11 +15,13 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final Converter converter;
     private final UserService userService;
+    private final JobService jobService;
 
-    public CompanyService(CompanyRepository companyRepository, Converter converter, UserService userService) {
+    public CompanyService(CompanyRepository companyRepository, Converter converter, UserService userService, JobService jobService) {
         this.companyRepository = companyRepository;
         this.converter = converter;
         this.userService = userService;
+        this.jobService = jobService;
     }
 
     public Company handleCreate(Company company) {
@@ -53,6 +55,8 @@ public class CompanyService {
     }
 
     public void handleDelete(long id) throws InvalidException {
+
+
         Company company = this.companyRepository.findById(id).orElse(null);
         if (company == null) throw new InvalidException("Company not found");
 
@@ -64,6 +68,9 @@ public class CompanyService {
                 throw new RuntimeException(e);
             }
         });
+
+        //delete job
+        company.getJobs().forEach(item -> jobService.deleteById(item.getId()));
 
         this.companyRepository.deleteById(id);
     }

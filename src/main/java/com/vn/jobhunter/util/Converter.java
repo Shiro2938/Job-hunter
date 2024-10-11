@@ -1,10 +1,18 @@
 package com.vn.jobhunter.util;
 
+import com.vn.jobhunter.domain.Company;
+import com.vn.jobhunter.domain.Job;
 import com.vn.jobhunter.domain.Response.Auth.ResLoginDTO;
+import com.vn.jobhunter.domain.Response.Job.ResCreateJobDTO;
+import com.vn.jobhunter.domain.Response.Job.ResUpdateJobDTO;
 import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
+import com.vn.jobhunter.domain.Response.Resume.ResCreateResumeDTO;
+import com.vn.jobhunter.domain.Response.Resume.ResResumeDTO;
+import com.vn.jobhunter.domain.Response.Resume.ResUpdateResumeDTO;
 import com.vn.jobhunter.domain.Response.User.ResCreateUserDTO;
 import com.vn.jobhunter.domain.Response.User.ResUpdateUserDTO;
 import com.vn.jobhunter.domain.Response.User.ResUserDTO;
+import com.vn.jobhunter.domain.Resume;
 import com.vn.jobhunter.domain.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -43,11 +51,11 @@ public class Converter {
         return resLoginDTO;
     }
 
-    public ResultPaginationDTO toResultPaginationDTO(Page<User> userPage) {
+    public ResultPaginationDTO toResultPaginationUserDTO(Page<User> userPage) {
 
         ResultPaginationDTO resultPaginationDTO = this.initResultPagination(userPage);
         List<ResUserDTO> resUserDTO = userPage.getContent().stream()
-                .map(user -> this.toResUserDTO(user)).toList();
+                .map(this::toResUserDTO).toList();
         resultPaginationDTO.setResult(resUserDTO);
 
 
@@ -83,5 +91,52 @@ public class Converter {
         userGetAccount.setUser(userLogin);
 
         return userGetAccount;
+    }
+
+    public ResCreateJobDTO toResCreateJobDTO(Job job) {
+        ResCreateJobDTO resCreateJobDTO = modelMapper.map(job, ResCreateJobDTO.class);
+        return resCreateJobDTO;
+    }
+
+    public ResUpdateJobDTO toResUpdateJobDTO(Job job) {
+        ResUpdateJobDTO resUpdateJobDTO = modelMapper.map(job, ResUpdateJobDTO.class);
+        return resUpdateJobDTO;
+    }
+
+    public ResCreateResumeDTO toResCreateResumeDTO(Resume resume) {
+        return this.modelMapper.map(resume, ResCreateResumeDTO.class);
+    }
+
+    public ResUpdateResumeDTO toResUpdateResumeDTO(Resume resume) {
+        return this.modelMapper.map(resume, ResUpdateResumeDTO.class);
+    }
+
+    public ResResumeDTO toResResumeDTO(Resume resume) {
+        ResResumeDTO resResumeDTO = this.modelMapper.map(resume, ResResumeDTO.class);
+
+        ResResumeDTO.UserResume user = new ResResumeDTO.UserResume();
+        ResResumeDTO.JobResume job = new ResResumeDTO.JobResume();
+
+        user = this.modelMapper.map(resume.getUser(), ResResumeDTO.UserResume.class);
+        job = this.modelMapper.map(resume.getJob(), ResResumeDTO.JobResume.class);
+
+        resResumeDTO.setUser(user);
+        resResumeDTO.setJob(job);
+
+        Company company = resume.getJob().getCompany();
+        if (company != null) resResumeDTO.setCompanyName(company.getName());
+
+        return resResumeDTO;
+    }
+
+    public ResultPaginationDTO toResultPaginationResumeDTO(Page<Resume> resumePage) {
+        ResultPaginationDTO resultPaginationDTO = this.initResultPagination(resumePage);
+
+        List<ResResumeDTO> resResumeDTOList = resumePage.getContent().stream()
+                .map(this::toResResumeDTO).toList();
+
+        resultPaginationDTO.setResult(resResumeDTOList);
+
+        return resultPaginationDTO;
     }
 }

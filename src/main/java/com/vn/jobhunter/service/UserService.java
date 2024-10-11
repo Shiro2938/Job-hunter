@@ -109,7 +109,7 @@ public class UserService {
     public ResultPaginationDTO findAll(Pageable pageable, Specification<User> spec) throws InvalidException {
         Page<User> userPage = this.userRepository.findAll(spec, pageable);
 
-        return this.converter.toResultPaginationDTO(userPage);
+        return this.converter.toResultPaginationUserDTO(userPage);
     }
 
     public void deleteById(long id) throws InvalidException {

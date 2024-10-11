@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vn.jobhunter.domain.enumeration.LevelEnum;
 import com.vn.jobhunter.util.SecurityUtil;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +21,7 @@ public class Job {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Name must be not blank")
     private String name;
 
     private String location;
@@ -27,6 +30,11 @@ public class Job {
 
     private int quantity;
 
+    private Instant startDate;
+
+    private Instant endDate;
+
+    @NotNull(message = "Level must be not null")
     private LevelEnum level;
 
     @Column(columnDefinition = "MEDIUMTEXT")

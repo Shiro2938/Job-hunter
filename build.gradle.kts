@@ -39,6 +39,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-oauth2-resource-server")
     implementation("org.springframework.security:spring-security-oauth2-jose")
     implementation("com.turkraft.springfilter:jpa:3.1.7")
+    implementation("org.springframework.boot:spring-boot-devtools:3.3.2")
 }
 
 tasks.withType<Test> {
