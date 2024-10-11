@@ -7,6 +7,7 @@ import com.vn.jobhunter.domain.User;
 import com.vn.jobhunter.service.UserService;
 import com.vn.jobhunter.util.Converter;
 import com.vn.jobhunter.util.SecurityUtil;
+import com.vn.jobhunter.util.annotation.APIMessage;
 import com.vn.jobhunter.util.error.InvalidException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +35,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/login")
+    @APIMessage("Login successful!")
     public ResponseEntity<ResLoginDTO> getLogin(@RequestBody @Valid ReqLoginDTO loginDTO) throws InvalidException {
 
         //authenticate
@@ -53,6 +55,7 @@ public class AuthController {
     }
 
     @GetMapping("/auth/account")
+    @APIMessage("Get account successfully!")
     public ResponseEntity<ResLoginDTO.UserGetAccount> getAccount() {
         String email = SecurityUtil.getCurrentUserLogin();
         System.out.println(">>>>>>>>>" + email);
@@ -62,12 +65,14 @@ public class AuthController {
     }
 
     @PostMapping("/auth/register")
+    @APIMessage("Register successful!")
     public ResponseEntity<ResCreateUserDTO> createNewUser(@RequestBody User user) throws InvalidException {
         ResCreateUserDTO resCreateUserDTO = this.userService.handleCreate(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(resCreateUserDTO);
     }
 
     @PostMapping("/auth/logout")
+    @APIMessage("Logout successful!")
     public ResponseEntity<Void> logout() {
         String email = this.securityUtil.getCurrentUserLogin();
 
@@ -83,6 +88,7 @@ public class AuthController {
     }
 
     @GetMapping("/auth/refresh")
+    @APIMessage("Refresh token success!")
     public ResponseEntity<ResLoginDTO> getRefreshToken(
             @CookieValue(name = "refresh_token") String refreshToken
     ) throws InvalidException {

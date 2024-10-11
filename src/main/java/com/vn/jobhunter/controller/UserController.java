@@ -7,6 +7,7 @@ import com.vn.jobhunter.domain.Response.User.ResUpdateUserDTO;
 import com.vn.jobhunter.domain.Response.User.ResUserDTO;
 import com.vn.jobhunter.domain.User;
 import com.vn.jobhunter.service.UserService;
+import com.vn.jobhunter.util.annotation.APIMessage;
 import com.vn.jobhunter.util.error.InvalidException;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +25,9 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @PostMapping("/users")
+    @APIMessage("Create user successful!")
     public ResponseEntity<ResCreateUserDTO> createUser(@RequestBody @Valid User user) throws InvalidException {
 
         //handle create User
@@ -35,6 +38,7 @@ public class UserController {
     }
 
     @PutMapping("/users")
+    @APIMessage("Update user by ID successful!")
     public ResponseEntity<ResUpdateUserDTO> updateUser(@RequestBody @Valid User user) throws InvalidException {
 
         //handle update User
@@ -43,6 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
+    @APIMessage("Get user by ID successful!")
     public ResponseEntity<ResUserDTO> getUser(@PathVariable long id) throws InvalidException {
 
         //find User by ID
@@ -51,6 +56,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @APIMessage("Get all users successful!")
     public ResponseEntity<ResultPaginationDTO> getAllUsers(
             Pageable pageable, @Filter Specification<User> specificationUser
     ) throws InvalidException {
@@ -61,6 +67,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{id}")
+    @APIMessage("Delete user by ID successful!")
     public ResponseEntity<Void> deleteUser(@PathVariable long id) throws InvalidException {
         this.userService.deleteById(id);
         System.out.println(">>>>>>>" + id);
