@@ -6,8 +6,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -43,6 +45,10 @@ public class User {
     private String createdBy;
 
     private String updatedBy;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Resume> resumes;
 
     @ManyToOne
     @JoinColumn(name = "companyId")

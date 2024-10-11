@@ -1,33 +1,38 @@
 package com.vn.jobhunter.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.vn.jobhunter.domain.enumeration.LevelEnum;
 import com.vn.jobhunter.util.SecurityUtil;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
 import java.util.List;
 
+@Entity
+@Table(name = "jobs")
 @Getter
 @Setter
-@Table(name = "companies")
-@Entity
-public class Company {
+public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Name must be not blank")
     private String name;
 
-    private String address;
+    private String location;
+
+    private double salary;
+
+    private int quantity;
+
+    private LevelEnum level;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String description;
 
-    private String logo;
+    private boolean active;
 
     private Instant createdAt;
 
@@ -37,13 +42,13 @@ public class Company {
 
     private String updatedBy;
 
+    @OneToMany(mappedBy = "job")
     @JsonIgnore
-    @OneToMany(mappedBy = "company")
-    private List<User> users;
+    private List<Resume> resumes;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "company")
-    private List<Job> jobs;
+    @ManyToOne
+    @JoinColumn(name = "companyId")
+    private Company company;
 
     @PrePersist
     protected void onCreate() {
