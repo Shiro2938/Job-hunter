@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Getter
 @Setter
-public class RestResponse {
+public class RestResponse<T> {
     private int statusCode;
     private Object message;
     private String error;
-    private Object data;
+    private T data;
 }
