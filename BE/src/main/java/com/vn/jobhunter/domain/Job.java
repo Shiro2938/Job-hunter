@@ -58,6 +58,13 @@ public class Job {
     @JoinColumn(name = "companyId")
     private Company company;
 
+    @ManyToMany
+    @JoinTable(
+            name = "job_skill",
+            joinColumns = @JoinColumn(name = "job_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id"))
+    private List<Skill> skills;
+
     @PrePersist
     protected void onCreate() {
         createdAt = Instant.now();

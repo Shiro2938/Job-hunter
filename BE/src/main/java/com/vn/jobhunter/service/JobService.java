@@ -5,8 +5,10 @@ import com.vn.jobhunter.domain.Job;
 import com.vn.jobhunter.domain.Response.Job.ResCreateJobDTO;
 import com.vn.jobhunter.domain.Response.Job.ResUpdateJobDTO;
 import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
+import com.vn.jobhunter.domain.Skill;
 import com.vn.jobhunter.repository.JobRepository;
 import com.vn.jobhunter.repository.ResumeRepository;
+import com.vn.jobhunter.repository.SkillRepository;
 import com.vn.jobhunter.util.Converter;
 import com.vn.jobhunter.util.error.InvalidException;
 import org.springframework.context.annotation.Lazy;
@@ -15,22 +17,40 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class JobService {
     private final JobRepository jobRepository;
     private final Converter converter;
     private final CompanyService companyService;
     private final ResumeRepository resumeRepository;
+    private final SkillRepository skillRepository;
 
 
-    public JobService(JobRepository jobRepository, Converter converter, @Lazy CompanyService companyService, ResumeRepository resumeRepository) {
+    public JobService(JobRepository jobRepository, Converter converter, @Lazy CompanyService companyService, ResumeRepository resumeRepository, SkillRepository skillRepository) {
         this.jobRepository = jobRepository;
         this.converter = converter;
         this.companyService = companyService;
         this.resumeRepository = resumeRepository;
+        this.skillRepository = skillRepository;
     }
 
-    public ResCreateJobDTO handleCreateJob(Job job) {
+    public ResCreateJobDTO handleCreateJob(Job job) throws InvalidException {
+
+        //Save only skill ID valid
+        if (job.getSkills() != null) {
+            List<Long> IDSkillList = job.getSkills().stream()
+                    .map(item -> item.getId())
+                    .collect(Collectors.toList());
+            List<Skill> skills = skillRepository.findByIdIn(IDSkillList);
+            job.setSkills(skills);
+        }
+
+        Company company = this.companyService.findById(job.getCompany().getId());
+        job.setCompany(company);
+
         Job createdJob = this.jobRepository.save(job);
         return this.converter.toResCreateJobDTO(createdJob);
     }
@@ -42,6 +62,14 @@ public class JobService {
         if (job.getCompany() != null) {
             Company companyInDB = this.companyService.findById(job.getCompany().getId());
             jobInDB.setCompany(companyInDB);
+        }
+
+        // skill
+        if (job.getSkills() != null) {
+            List<Skill> skills = job.getSkills().stream().
+                    filter(item -> this.skillRepository.findById(item.getId()).isPresent())
+                    .collect(Collectors.toList());
+            jobInDB.setSkills(skills);
         }
 
         //mapping
@@ -78,7 +106,6 @@ public class JobService {
             this.resumeRepository.deleteAll(job.getResumes());
             this.jobRepository.deleteById(id);
         }
-
 
     }
 }

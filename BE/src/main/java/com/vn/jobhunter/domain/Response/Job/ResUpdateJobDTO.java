@@ -1,5 +1,6 @@
 package com.vn.jobhunter.domain.Response.Job;
 
+import com.vn.jobhunter.domain.Skill;
 import com.vn.jobhunter.domain.enumeration.LevelEnum;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +30,7 @@ public class ResUpdateJobDTO {
 
     private Instant endDate;
 
-    private List<String> skills;
+    private List<Skill> skills;
 
     private boolean active;
 

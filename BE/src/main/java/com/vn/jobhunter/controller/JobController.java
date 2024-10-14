@@ -26,7 +26,7 @@ public class JobController {
 
     @PostMapping("/jobs")
     @APIMessage("Create Job successful")
-    public ResponseEntity<ResCreateJobDTO> createJob(@RequestBody @Valid Job job) {
+    public ResponseEntity<ResCreateJobDTO> createJob(@RequestBody @Valid Job job) throws InvalidException {
         ResCreateJobDTO resCreateJobDTO = this.jobService.handleCreateJob(job);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(resCreateJobDTO);

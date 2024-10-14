@@ -1,11 +1,12 @@
 package com.vn.jobhunter.domain.Response.Job;
 
-import java.time.Instant;
-import java.util.List;
-
+import com.vn.jobhunter.domain.Skill;
 import com.vn.jobhunter.domain.enumeration.LevelEnum;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.Instant;
+import java.util.List;
 
 
 @Getter
@@ -29,7 +30,7 @@ public class ResCreateJobDTO {
 
     private Instant endDate;
 
-    private List<String> skills;
+    private List<Skill> skills;
 
     private boolean active;
 
