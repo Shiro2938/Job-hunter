@@ -30,16 +30,46 @@ public class Converter {
 
     public ResCreateUserDTO toResCreateUserDTO(User user) {
         ResCreateUserDTO resCreateUser = modelMapper.map(user, ResCreateUserDTO.class);
+
+        if (user.getRole() != null) {
+            resCreateUser.setRole(new ResCreateUserDTO.RoleUser(user.getRole()
+                    .getId(), user.getRole().getName()));
+        }
+
+        if (user.getCompany() != null) {
+            resCreateUser.setCompany(new ResCreateUserDTO.CompanyUser(user.getCompany().getId(),
+                    user.getCompany().getName()));
+        }
+
         return resCreateUser;
     }
 
     public ResUserDTO toResUserDTO(User user) {
         ResUserDTO resUser = modelMapper.map(user, ResUserDTO.class);
+
+        if (user.getRole() != null) {
+            resUser.setRole(new ResUserDTO.RoleUser(user.getRole()
+                    .getId(), user.getRole().getName()));
+        }
+
+        if (user.getCompany() != null) {
+            resUser.setCompany(new ResUserDTO.CompanyUser(user.getCompany().getId(),
+                    user.getCompany().getName()));
+        }
         return resUser;
     }
 
     public ResUpdateUserDTO toResUpdateUserDTO(User user) {
         ResUpdateUserDTO resUpdateUser = modelMapper.map(user, ResUpdateUserDTO.class);
+        if (user.getRole() != null) {
+            resUpdateUser.setRole(new ResUpdateUserDTO.RoleUser(user.getRole()
+                    .getId(), user.getRole().getName()));
+        }
+
+        if (user.getCompany() != null) {
+            resUpdateUser.setCompany(new ResUpdateUserDTO.CompanyUser(user.getCompany().getId(),
+                    user.getCompany().getName()));
+        }
 
         return resUpdateUser;
     }
@@ -86,6 +116,7 @@ public class Converter {
 
     public ResLoginDTO.UserGetAccount toResGetAccountDTO(User user) {
         ResLoginDTO.UserLogin userLogin = modelMapper.map(user, ResLoginDTO.UserLogin.class);
+
 
         ResLoginDTO.UserGetAccount userGetAccount = new ResLoginDTO.UserGetAccount();
         userGetAccount.setUser(userLogin);

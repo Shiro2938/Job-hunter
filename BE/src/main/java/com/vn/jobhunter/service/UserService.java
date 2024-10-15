@@ -7,8 +7,10 @@ import com.vn.jobhunter.domain.Response.ResultPaginationDTO;
 import com.vn.jobhunter.domain.Response.User.ResCreateUserDTO;
 import com.vn.jobhunter.domain.Response.User.ResUpdateUserDTO;
 import com.vn.jobhunter.domain.Response.User.ResUserDTO;
+import com.vn.jobhunter.domain.Role;
 import com.vn.jobhunter.domain.User;
 import com.vn.jobhunter.repository.CompanyRepository;
+import com.vn.jobhunter.repository.RoleRepository;
 import com.vn.jobhunter.repository.UserRepository;
 import com.vn.jobhunter.util.Converter;
 import com.vn.jobhunter.util.SecurityUtil;
@@ -32,16 +34,18 @@ public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final SecurityUtil securityUtil;
     private final CompanyRepository companyRepository;
+    private final RoleRepository roleRepository;
 
     public UserService(UserRepository userRepository, Converter converter,
                        PasswordEncoder passwordEncoder, AuthenticationManagerBuilder authenticationManagerBuilder, SecurityUtil securityUtil,
-                       CompanyRepository companyRepository) {
+                       CompanyRepository companyRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.converter = converter;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.securityUtil = securityUtil;
         this.companyRepository = companyRepository;
+        this.roleRepository = roleRepository;
     }
 
     public User fetchByEmail(String email) {
@@ -83,14 +87,17 @@ public class UserService {
         User userInDB = this.userRepository.findById(user.getId()).get();
 
         //mapping
-        userInDB.setPassword(passwordEncoder.encode(user.getPassword()));
         userInDB.setName(user.getName());
         userInDB.setAddress(user.getAddress());
         userInDB.setAge(user.getAge());
         userInDB.setGender(user.getGender());
         userInDB.setCompany(company);
+        Role role = user.getRole();
+        if (role != null && role.getId() != null) {
+            userInDB.setRole(this.roleRepository.findById(role.getId()).orElse(null));
+        } else user.setRole(null);
 
-        this.userRepository.save(userInDB);
+        userInDB = this.userRepository.save(userInDB);
 
         return this.converter.toResUpdateUserDTO(userInDB);
     }

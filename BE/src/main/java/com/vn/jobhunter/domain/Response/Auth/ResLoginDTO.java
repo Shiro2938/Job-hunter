@@ -1,6 +1,7 @@
 package com.vn.jobhunter.domain.Response.Auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vn.jobhunter.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class ResLoginDTO {
         private long id;
         private String email;
         private String name;
+        private Role role;
     }
 
     @Getter

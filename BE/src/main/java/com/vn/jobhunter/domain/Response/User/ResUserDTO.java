@@ -1,8 +1,9 @@
 package com.vn.jobhunter.domain.Response.User;
 
-import com.vn.jobhunter.domain.Company;
 import com.vn.jobhunter.domain.enumeration.GenderEnum;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
@@ -20,5 +21,24 @@ public class ResUserDTO {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
-    private Company company;
+    private CompanyUser company;
+    private RoleUser role;
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class CompanyUser {
+        private long id;
+        private String name;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RoleUser {
+        private long id;
+        private String name;
+    }
 }
