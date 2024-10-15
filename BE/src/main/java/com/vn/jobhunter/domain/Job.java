@@ -34,6 +34,7 @@ public class Job {
 
     private Instant endDate;
 
+    @Enumerated(EnumType.STRING)
     @NotNull(message = "Level must be not null")
     private LevelEnum level;
 

@@ -33,6 +33,7 @@ public class User {
 
     private String address;
 
+    @Enumerated(EnumType.STRING)
     private GenderEnum gender;
 
     @Column(columnDefinition = "MEDIUMTEXT")

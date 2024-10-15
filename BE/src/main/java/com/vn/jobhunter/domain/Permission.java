@@ -1,5 +1,6 @@
 package com.vn.jobhunter.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vn.jobhunter.util.SecurityUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -33,6 +34,7 @@ public class Permission {
     private String module;
 
     @ManyToMany(mappedBy = "permissions")
+    @JsonIgnore
     private List<Role> roles;
 
 

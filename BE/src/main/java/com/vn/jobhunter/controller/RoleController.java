@@ -51,4 +51,9 @@ public class RoleController {
     }
 
 
+    @DeleteMapping("/roles/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable long id) throws InvalidException {
+        this.roleService.handleDeleteById(id);
+        return ResponseEntity.ok(null);
+    }
 }

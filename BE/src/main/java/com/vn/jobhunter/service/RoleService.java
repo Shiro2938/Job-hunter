@@ -71,4 +71,8 @@ public class RoleService {
 
         return resultPaginationDTO;
     }
+
+    public void handleDeleteById(long id) {
+        this.roleRepository.deleteById(id);
+    }
 }
