@@ -54,6 +54,10 @@ public class User {
     @JoinColumn(name = "companyId")
     private Company company;
 
+    @ManyToOne
+    @JoinColumn(name = "roleId")
+    private Role role;
+
     @PrePersist
     protected void onCreate() {
         createdAt = Instant.now();
