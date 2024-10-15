@@ -51,6 +51,4 @@ public class RoleController {
     }
 
 
-    @DeleteMapping("/roles/{id}")
-
 }
