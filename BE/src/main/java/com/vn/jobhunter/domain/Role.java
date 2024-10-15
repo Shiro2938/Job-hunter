@@ -1,14 +1,19 @@
 package com.vn.jobhunter.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vn.jobhunter.util.SecurityUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.List;
 
 @Entity
 @Table(name = "roles")
+@Getter
+@Setter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +35,7 @@ public class Role {
     private String updatedBy;
 
     @OneToMany(mappedBy = "role")
+    @JsonIgnore
     private List<User> users;
 
     @PrePersist

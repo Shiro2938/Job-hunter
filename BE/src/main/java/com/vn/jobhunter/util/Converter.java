@@ -139,4 +139,8 @@ public class Converter {
 
         return resultPaginationDTO;
     }
+
+    public <T> void mapObject(T source, T destination) {
+        modelMapper.map(source, destination);
+    }
 }
