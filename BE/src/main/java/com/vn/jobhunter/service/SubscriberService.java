@@ -8,6 +8,7 @@ import com.vn.jobhunter.util.error.InvalidException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubscriberService {
@@ -30,7 +31,7 @@ public class SubscriberService {
 
         List<Skill> skills = subscriber.getSkills().stream()
                 .filter(skill -> this.skillRepository.findById(skill.getId()).isPresent())
-                .toList();
+                .collect(Collectors.toList());
         subscriber.setSkills(skills);
 
         return this.subscriberRepository.save(subscriber);
@@ -43,10 +44,13 @@ public class SubscriberService {
 
         List<Skill> skills = subscriber.getSkills().stream()
                 .filter(skill -> this.skillRepository.findById(skill.getId()).isPresent())
-                .toList();
-        subscriber.setSkills(skills);
+                .collect(Collectors.toList());
 
-        return this.subscriberRepository.save(subscriber);
+        Subscriber subscriberInDB = this.subscriberRepository.findById(subscriber.getId()).get();
+
+        subscriberInDB.setSkills(skills);
+
+        return this.subscriberRepository.save(subscriberInDB);
 
     }
 }
