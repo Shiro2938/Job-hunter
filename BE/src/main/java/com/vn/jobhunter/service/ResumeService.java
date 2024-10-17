@@ -11,6 +11,8 @@ import com.vn.jobhunter.repository.JobRepository;
 import com.vn.jobhunter.repository.ResumeRepository;
 import com.vn.jobhunter.repository.UserRepository;
 import com.vn.jobhunter.util.Converter;
+import com.vn.jobhunter.util.SecurityUtil;
+import com.vn.jobhunter.util.SpecificationUtil;
 import com.vn.jobhunter.util.error.InvalidException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -65,8 +67,13 @@ public class ResumeService {
         return this.converter.toResUpdateResumeDTO(resumeInDB);
     }
 
-    public ResultPaginationDTO getAllResumes(Pageable pageable, Specification<Resume> specification) {
+    public ResultPaginationDTO getAllResumesByCompanyUser(Pageable pageable, Specification<Resume> specification) {
 
+        User currentUser = this.userRepository.findByEmail(SecurityUtil.getCurrentUserLogin());
+
+        if (currentUser != null) {
+            specification = specification.and(SpecificationUtil.inCompanyWithID(currentUser.getCompany().getId()));
+        }
         Page<Resume> resumePage = this.resumeRepository.findAll(specification, pageable);
 
         ResultPaginationDTO resultPaginationDTO = this.converter.toResultPaginationResumeDTO(resumePage);

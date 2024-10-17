@@ -52,7 +52,7 @@ public class ResumeController {
     @GetMapping("/resumes")
     @APIMessage("Get All Resumes successful!")
     public ResponseEntity<ResultPaginationDTO> getAllResumes(Pageable pageable, @Filter Specification<Resume> specification) {
-        ResultPaginationDTO resultPaginationDTO = this.resumeService.getAllResumes(pageable, specification);
+        ResultPaginationDTO resultPaginationDTO = this.resumeService.getAllResumesByCompanyUser(pageable, specification);
 
         return ResponseEntity.ok(resultPaginationDTO);
     }
