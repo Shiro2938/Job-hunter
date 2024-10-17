@@ -34,6 +34,10 @@ public class Skill {
     @JsonIgnore
     private List<Job> jobs;
 
+    @ManyToMany(mappedBy = "skills")
+    @JsonIgnore
+    private List<Subscriber> subscribers;
+
     @PrePersist
     protected void onCreate() {
         createdAt = Instant.now();
