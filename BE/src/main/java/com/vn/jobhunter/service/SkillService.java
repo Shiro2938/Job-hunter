@@ -68,9 +68,14 @@ public class SkillService {
         Skill skill = this.skillRepository.findById(id).orElse(null);
         if (skill == null) throw new InvalidException("Skill ID not found");
 
-        //delete job have skill
+        //remove skill on job
         if (skill.getJobs() != null) {
-            skill.getJobs().forEach(job -> this.jobService.deleteById(job.getId()));
+            skill.getJobs().forEach(job -> job.getSkills().remove(skill));
+        }
+
+        //remove skill on subscriber
+        if (skill.getSubscribers() != null) {
+            skill.getSubscribers().forEach(sub -> sub.getSkills().remove(skill));
         }
 
         this.skillRepository.delete(skill);
