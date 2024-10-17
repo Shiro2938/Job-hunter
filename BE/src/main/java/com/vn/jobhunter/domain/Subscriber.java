@@ -3,6 +3,7 @@ package com.vn.jobhunter.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.vn.jobhunter.util.SecurityUtil;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +21,9 @@ public class Subscriber {
 
     private String name;
 
+    @Email(regexp = "(?i)^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$", message = "Email is invalid")
     private String email;
+
 
     private Instant createdAt;
 

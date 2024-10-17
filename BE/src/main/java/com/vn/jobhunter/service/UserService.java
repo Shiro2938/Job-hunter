@@ -60,13 +60,16 @@ public class UserService {
         }
 
         //check company valid
-        Company company = this.companyRepository.findById(user.getCompany().getId()).orElse(null);
-        if (company == null)
-            throw new InvalidException("Company not found");
+        if (user.getCompany() != null) {
+            Company company = this.companyRepository.findById(user.getCompany().getId()).orElse(null);
+            if (company == null)
+                throw new InvalidException("Company not found");
+            user.setCompany(company);
+        }
 
         //encode password
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setCompany(company);
+
 
         User createdUser = this.userRepository.save(user);
 
