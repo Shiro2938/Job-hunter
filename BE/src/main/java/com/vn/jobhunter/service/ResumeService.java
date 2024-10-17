@@ -85,4 +85,12 @@ public class ResumeService {
         if (this.resumeRepository.findById(id).isEmpty()) throw new InvalidException("Resume not found");
         else this.resumeRepository.deleteById(id);
     }
+
+    public ResultPaginationDTO getResumeByUser(Pageable pageable) {
+        User currentUser = this.userRepository.findByEmail(SecurityUtil.getCurrentUserLogin());
+
+        ResultPaginationDTO resultPaginationDTO = this.converter.toDefaultResultPaginationDTO(this.resumeRepository.findAll(pageable));
+
+        return resultPaginationDTO;
+    }
 }

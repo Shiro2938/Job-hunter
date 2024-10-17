@@ -1,12 +1,12 @@
 package com.vn.jobhunter.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vn.jobhunter.domain.enumeration.GenderEnum;
 import com.vn.jobhunter.util.SecurityUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.time.Instant;
 import java.util.List;
